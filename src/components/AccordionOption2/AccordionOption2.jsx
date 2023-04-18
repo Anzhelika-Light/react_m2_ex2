@@ -16,30 +16,27 @@ class AccordionOption2 extends Component {
   };
 
   setActiveIndex = (index) => {
-    const { isExpanded } = this.state;
-    this.setState({ isExpanded: !isExpanded, activeBtnIndex: index });
+    this.setState({ activeBtnIndex: index });
   };
 
   makeTitleClassName = (index) => {
     const { activeBtnIndex, isExpanded } = this.state;
-    const titleClassNames =
-      index === activeBtnIndex || isExpanded
-        ? `${styles.title} ${styles.isExpanded}`
-        : styles.title;
-    return titleClassNames;
+
+    return index === activeBtnIndex || isExpanded
+      ? `${styles.title} ${styles.isExpanded}`
+      : styles.title;
   };
 
   makeContentClassName = (index) => {
     const { activeBtnIndex, isExpanded } = this.state;
-    const contentClassNames =
-      index === activeBtnIndex || isExpanded
-        ? `${styles.content} ${styles.isExpanded}`
-        : styles.content;
-    return contentClassNames;
+
+    return index === activeBtnIndex || isExpanded
+      ? `${styles.content} ${styles.isExpanded}`
+      : styles.content;
   };
 
   render() {
-    const { expandAllBtnClick, collapseAllBtnClick } = this;
+    const { expandAllBtnClick, collapseAllBtnClick, setActiveIndex } = this;
 
     const { items } = this.props;
     const elements = items.map(({ title, text, id }, index) => {
@@ -49,7 +46,7 @@ class AccordionOption2 extends Component {
         <div key={id} className={styles.accordion__item}>
           <p
             onClick={() => {
-              this.setActiveIndex(index);
+              setActiveIndex(index);
             }}
             className={titleClassNames}
           >
@@ -57,7 +54,7 @@ class AccordionOption2 extends Component {
           </p>
           <div
             onClick={() => {
-              this.setActiveIndex(index);
+              setActiveIndex(index);
             }}
             className={contentClassNames}
           >
