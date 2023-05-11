@@ -3,34 +3,46 @@ import styles from "./accordion.module.css";
 
 class AccordionOption2 extends Component {
   state = {
-    isExpanded: false,
-    activeIndex: 0,
+    // isExpanded: false,
+    activeIndex: [],
   };
 
   expandAllBtnClick = () => {
-    this.setState({ activeBtnIndex: NaN, isExpanded: true });
+    const newActiveIndexArray = this.props.items.map((_, index) => index);
+    this.setState({
+      activeIndex: newActiveIndexArray,
+    });
   };
 
   collapseAllBtnClick = () => {
-    this.setState({ activeBtnIndex: NaN, isExpanded: false });
+    this.setState({ activeIndex: [] });
   };
 
   setActiveIndex = (index) => {
-    this.setState({ activeBtnIndex: index });
+    this.setState((prevState) => {
+      const newActiveIndexArray = prevState.activeIndex.includes(index)
+        ? prevState.activeIndex.filter((item) => item !== index)
+        : [...prevState.activeIndex, index];
+      console.log(newActiveIndexArray);
+      return {
+        activeIndex: newActiveIndexArray,
+      };
+    });
+    // this.setState({ activeBtnIndex: index });
   };
 
   makeTitleClassName = (index) => {
-    const { activeBtnIndex, isExpanded } = this.state;
+    const { activeIndex, isExpanded } = this.state;
 
-    return index === activeBtnIndex || isExpanded
+    return activeIndex.includes(index)
       ? `${styles.title} ${styles.isExpanded}`
       : styles.title;
   };
 
   makeContentClassName = (index) => {
-    const { activeBtnIndex, isExpanded } = this.state;
+    const { activeIndex, isExpanded } = this.state;
 
-    return index === activeBtnIndex || isExpanded
+    return activeIndex.includes(index)
       ? `${styles.content} ${styles.isExpanded}`
       : styles.content;
   };
